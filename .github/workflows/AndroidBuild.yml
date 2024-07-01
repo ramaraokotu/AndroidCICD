@@ -1,0 +1,28 @@
+name: AndroidBuild
+on:
+  pull_request:
+    branches:
+      - master
+  push:
+    branches:
+      - master
+
+jobs:
+    build:
+      runs-on:
+        macos-latest
+      steps:
+        - name: Checkout
+          uses: actions/checkout@v4.1.7
+
+        - name: Setup Java JDK
+          uses: actions/setup-java@v4.2.1
+
+        - name: Build with Gradle
+          uses: ./gradlew build
+
+        - name: Upload a Build Artifact
+          uses: actions/upload-artifact@v4.3.3
+          with:
+            name: AndroidCICD.apk
+            path: app/build/outputs/apk/app-debug.apk
